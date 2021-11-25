@@ -1,0 +1,5 @@
+<%= form_with url: search_dashboard_index_path(format: :turbo_stream), data: {controller: 'dashboard', dashboard_target: "form"}, class: "flex gap-8 justify-center items-center" do |form| %>
+    <div class="flex w-full items-center gap-4">
+        <%= form.text_field :query, placeholder: "Search for models", autocomplete: "off", class: "flex-grow", data: { action: "input->dashboard#search" } %>
+    </div>
+<% end %>

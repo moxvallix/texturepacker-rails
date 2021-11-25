@@ -1,0 +1,8 @@
+<main class="bg-blue-100 rounded">
+    <div class="flex flex-col gap-4 p-4">
+        <h1 class="text-3xl">Welcome to the Texture Uploader!</h1>
+        <%= render "form" %>
+        <%= render "select" %>
+    </div>
+    <%= render "items", items: @items %>
+</main>

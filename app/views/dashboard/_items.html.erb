@@ -1,9 +1,9 @@
-<table id="items" class="table-auto">
-    <tbody >
+<table id="items" class="table-auto w-full">
+    <tbody>
         <% @items.each do |item| %>
             <tr>
                 <td><%= item %></td>
-                <td>Select</td>
+                <td><%= link_to "Select", dashboard_index_path(selection: item), class: "underline" %></td>
             </tr>
         <% end %>
     </tbody>

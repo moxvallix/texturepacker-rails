@@ -1,5 +1,6 @@
-<%= form_with local: false, multipart: true do |form| %>
+<%= form_with url: upload_dashboard_index_path do |form| %>
       <%= form.file_field :file, required: true %>
       <%= form.text_field :name, placeholder: "Name the texture" %>
+      <%= form.hidden_field :selection, value: @selection %>
       <%= form.submit 'Upload', class: "btn btn-primary rounded border border-black"%>
 <% end %>

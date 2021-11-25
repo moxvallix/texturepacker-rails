@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     collection do
       post 'upload'
       post 'search'
+      post 'selection'
     end
   end
   root 'dashboard#index'

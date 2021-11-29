@@ -1,0 +1,21 @@
+<div class="bg-blue-100 rounded">
+    <div class="flex flex-col gap-4 p-8">
+        <div>
+            <h1 class="text-3xl">Your texture has been uploaded!</h1>
+            <p>
+                In order to see your texture, please relog out of the server.
+                You may need to run <code class="bg-gray-700 text-white p-1 rounded-sm">/rp</code> to refresh the textures.
+            </p>
+        </div>
+        <div>
+            <p><strong>Texture uploaded:</strong> <%= @name %></p>
+            <p>To use your texture, please hold the <strong><%= @item %></strong> in your hand and run:</p>
+            <code class="bg-gray-700 text-white p-1 rounded-sm">/trigger CustomModelData set <%= @uid %></code>
+        </div>
+        <div>
+            <p class="text-red-600"><strong>Keep a note of this command! Currently there is no way of reverse looking up the Model ID without going through the pack itself.</strong></p>
+            <%= link_to "Back", dashboard_index_path, class: "underline" %>
+        </div>
+    </div>
+</div>
+

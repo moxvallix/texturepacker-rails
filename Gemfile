@@ -35,6 +35,7 @@ gem "bootsnap", ">= 1.4.4", require: false
 
 gem "tailwindcss-rails", '~> 0.5.1'
 gem 'json', '~> 2.6', '>= 2.6.1'
+gem 'rubyzip', '~> 2.3', '>= 2.3.2'
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"

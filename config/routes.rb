@@ -6,7 +6,9 @@ Rails.application.routes.draw do
       post 'upload'
       post 'search'
       post 'selection'
+      get 'download'
+      get 'output'
     end
   end
-  root 'textures#index'
+  root 'dashboard#index'
 end

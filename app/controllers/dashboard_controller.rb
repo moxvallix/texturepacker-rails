@@ -44,29 +44,20 @@ class DashboardController < ApplicationController
 
         model_json = JSON.parse(File.read(models + selection))
         
-        if model_json.has_key?("overrides")
-            overrides = model_json["overrides"]
-
-            predicate = overrides.last
-            model = predicate["predicate"]
-            model_no = model["custom_model_data"].to_int + 1
-
-            model_data = [{"predicate"=>{"custom_model_data"=>model_no}, "model"=>"item/#{collection}/#{texture_name}"}]
-
-            overrides = overrides | model_data
-            overrides = {"overrides"=>overrides}
+        if has_overrides?(model_json)
+            model_no = next_model_number(model_json)
+            overrides = overrides | model_data(model_no, collection, texture_name)
+            overrides = {"overrides" => overrides}
             output = model_json.merge(overrides)
         else
             model_no = 1
-            model_data = [{"predicate"=>{"custom_model_data"=>model_no}, "model"=>"item/#{collection}/#{texture_name}"}]
-            output = model_json.merge({"overrides"=>model_data})
+            output = model_json.merge({"overrides" => model_data(model_no, collection, texture_name)})
         end
 
         File.write(models + selection, JSON.pretty_generate(output))
-
         model_json = JSON.parse(File.read(model_out + texture_name + ".json"))
-        model_data = {"textures"=>{"layer0"=>"minecraft:item/#{collection}/#{texture_name}"}}
-        output = model_json.merge(model_data)
+        texture_data = {"textures"=>{"layer0"=>"minecraft:item/#{collection}/#{texture_name}"}}
+        output = model_json.merge(texture_data)
 
         File.write(model_out + texture_name + ".json", JSON.pretty_generate(output))
 
@@ -81,7 +72,21 @@ class DashboardController < ApplicationController
         zf.write
 
         redirect_to output_dashboard_index_path(uid: model_no, name: texture_name, item: selection)
+    end
 
+    def model_data(model_no, collection, texture_name)
+        [{"predicate"=>{"custom_model_data"=>model_no}, "model"=>"item/#{collection}/#{texture_name}"}]
+    end
+
+    def has_overrides?(model_json)
+        model_json.has_key?("overrides")
+    end
+
+    def next_model_number(model_json)
+        overrides = model_json["overrides"]
+        predicate = overrides.last
+        model = predicate["predicate"]
+        model["custom_model_data"].to_int + 1 
     end
 
     def download

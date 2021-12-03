@@ -11,7 +11,7 @@ class DashboardController < ApplicationController
 
     def upload
         uploaded_file = params[:file]
-        texture_name = params[:name]
+        texture_name = params[:name].parameterize.underscore
         selection = params[:selection]
         item = selection
         selection = selection + ".json"

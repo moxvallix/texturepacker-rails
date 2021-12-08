@@ -95,7 +95,9 @@ class DashboardController < ApplicationController
     end
 
     def download
-        filepath = "public/packs/custom-rp.zip"
+        collection = "custom"
+        zip_collection(collection)
+        filepath = "public/packs/#{collection}-rp.zip"
         send_file filepath
     end
 

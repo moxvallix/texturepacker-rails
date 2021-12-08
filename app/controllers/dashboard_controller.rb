@@ -5,6 +5,12 @@ require 'open-uri'
 
 class DashboardController < ApplicationController
     def index
+        collection = "custom"
+        @item_models = ItemModel.all(collection)
+        @selected_item = params[:selection]
+    end
+
+    def new
         @items = Item.all
         @selected_item = params[:selection]
     end
@@ -17,9 +23,9 @@ class DashboardController < ApplicationController
         selection = selection + ".json"
         collection = "custom"
         examples = "public/resources/example_models/"
-        models = "storage/#{collection}/assets/minecraft/models/item/"
-        model_out = "storage/#{collection}/assets/minecraft/models/item/#{collection}/"
-        img_out = "storage/#{collection}/assets/minecraft/textures/item/#{collection}/"
+        models = "public/packs/#{collection}/assets/minecraft/models/item/"
+        model_out = "public/packs/#{collection}/assets/minecraft/models/item/#{collection}/"
+        img_out = "public/packs/#{collection}/assets/minecraft/textures/item/#{collection}/"
 
         # Create correct folder structure
         FileUtils.mkdir_p(model_out) unless Dir.exists?(model_out)

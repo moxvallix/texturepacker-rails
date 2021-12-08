@@ -10,5 +10,5 @@ Rails.application.routes.draw do
       get 'output'
     end
   end
-  root 'dashboard#index'
+  root 'dashboard#new'
 end

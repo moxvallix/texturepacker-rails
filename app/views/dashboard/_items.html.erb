@@ -1,10 +1,10 @@
 <table id="items" class="table-auto w-full">
-    <tbody>
-        <% @items.each do |item| %>
-            <tr>
-                <td><%= item %></td>
-                <td><%= link_to "Select", dashboard_index_path(selection: item), class: "underline" %></td>
-            </tr>
-        <% end %>
-    </tbody>
+  <tbody>
+    <% @items.each do |item| %>
+      <tr>
+        <td><%= item %></td>
+        <td><%= link_to "Select", new_dashboard_path(selection: item), class: "underline" %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>

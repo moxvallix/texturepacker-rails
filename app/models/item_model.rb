@@ -2,9 +2,8 @@ require 'json'
 
 class ItemModel
     def self.all(collection)
-        pack_dir = "public/packs/#{collection}/assets/minecraft/"
-        model_dir = pack_dir + "models/item/"
-        texture_dir = pack_dir + "textures/"
+        model_dir = "public/packs/#{collection}/assets/minecraft/models/item/"
+        texture_dir = "/packs/#{collection}/assets/minecraft/textures/"
         models = Dir.entries(model_dir).grep(/.json/).sort
         output = []
         models.each_with_index do |model, index|

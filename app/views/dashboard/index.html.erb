@@ -12,7 +12,7 @@
         <tr>
           <td><%= model["parent"] %></td>
           <td><span class="bg-gray-700 text-white p-1 rounded-sm font-mono">/trigger CustomModelData set <%= model["uid"] %></span></td>
-          <td><%= image_tag('boatcoin.png') %></td>
+          <td><%= image_tag(model["path"], size: "64x64", style: "image-rendering: optimizeSpeed;") %></td>
         </tr>
       <% end %>
     </tbody>

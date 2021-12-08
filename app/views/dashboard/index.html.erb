@@ -1,7 +1,8 @@
-<div class="prose">
-  <table>
+<div class="flex self-start m-8">
+  <table class="prose border-collapse">
     <thead>
       <tr>
+        <td>Name</td>
         <td>Item</td>
         <td>Command</td>
         <td>Texture</td>
@@ -10,11 +11,15 @@
     <tbody>
       <% @item_models.each do |model| %>
         <tr>
+          <td><%= model["name"] %></td>
           <td><%= model["parent"] %></td>
           <td><span class="bg-gray-700 text-white p-1 rounded-sm font-mono">/trigger CustomModelData set <%= model["uid"] %></span></td>
-          <td><%= image_tag(model["path"], size: "64x64", style: "image-rendering: optimizeSpeed;") %></td>
+          <td><%= image_tag(model["path"], size: "64x64", style: "image-rendering: optimizeSpeed; margin: 0px;") %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
+  <div>
+    <%= link_to "New Item", new_dashboard_path, class: "m-8 p-4 bg-blue-600 text-white rounded"%>
+  </div>
 </div>

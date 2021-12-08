@@ -7,7 +7,6 @@ class DashboardController < ApplicationController
     def index
         collection = "custom"
         @item_models = ItemModel.all(collection)
-        @selected_item = params[:selection]
     end
 
     def new
@@ -73,7 +72,7 @@ class DashboardController < ApplicationController
     end
 
     def zip_collection(collection)
-        folder = "storage/#{collection}/"
+        folder = "public/packs/#{collection}/"
         zipfile = "public/packs/custom-rp.zip"
         File.delete(zipfile) if File.exists?(zipfile)
         zf = ZipFileGenerator.new(folder, zipfile)

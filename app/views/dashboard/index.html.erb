@@ -1,5 +1,5 @@
 <div class="flex self-start m-8">
-  <table class="prose-lg border-collapse">
+  <table class="prose">
     <thead>
       <tr>
         <td>Name</td>
@@ -10,10 +10,10 @@
     </thead>
     <tbody>
       <% @item_models.each do |model| %>
-        <tr>
+        <tr data-controller="clipboard">
           <td><%= model["name"] %></td>
           <td><%= model["parent"] %></td>
-          <td><span class="bg-gray-700 text-white p-1 rounded-sm font-mono">/trigger CustomModelData set <%= model["uid"] %></span></td>
+          <td class="flex items-center gap-2"><input class="bg-gray-700 text-white p-1 rounded-sm font-mono" data-clipboard-target="source" size="32" value="/trigger CustomModelData set <%= model["uid"] %>" readonly ><button data-action="clipboard#copy"><%= image_tag "copy", size: "26x26" %></button></td>
           <td><%= image_tag(model["path"], size: "64x64", style: "image-rendering: optimizeSpeed; image-rendering: pixelated; margin: 0px;") %></td>
         </tr>
       <% end %>

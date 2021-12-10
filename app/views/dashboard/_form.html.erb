@@ -2,5 +2,5 @@
       <%= form.file_field :file, required: true %>
       <%= form.text_field :name, placeholder: "Name the texture" %>
       <%= form.hidden_field :selection, value: @selected_item %>
-      <%= form.submit 'Upload', class: "btn btn-primary rounded border border-black"%>
+      <%= form.submit 'Upload', class: "ml-2 p-4 bg-blue-600 text-white rounded cursor-pointer"%>
 <% end %>

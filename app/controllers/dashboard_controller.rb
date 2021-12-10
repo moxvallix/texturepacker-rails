@@ -18,6 +18,10 @@ class DashboardController < ApplicationController
         uploaded_file = params[:file]
         texture_name = params[:name].parameterize.underscore
         selection = params[:selection]
+        if selection.empty? || selection == "Please select an Item"
+            redirect_to new_dashboard_path(selection: "Please select an Item")
+            return
+        end
         item = selection
         selection = selection + ".json"
         collection = "custom"

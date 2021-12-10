@@ -14,7 +14,7 @@
           <td><%= model["name"] %></td>
           <td><%= model["parent"] %></td>
           <td><span class="bg-gray-700 text-white p-1 rounded-sm font-mono">/trigger CustomModelData set <%= model["uid"] %></span></td>
-          <td><%= image_tag(model["path"], size: "64x64", style: "image-rendering: optimizeSpeed; margin: 0px;") %></td>
+          <td><%= image_tag(model["path"], size: "64x64", style: "image-rendering: optimizeSpeed; image-rendering: pixelated; margin: 0px;") %></td>
         </tr>
       <% end %>
     </tbody>

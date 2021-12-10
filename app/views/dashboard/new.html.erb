@@ -2,12 +2,12 @@
     <div class="bg-blue-100 rounded">
         <div class="flex flex-col gap-4 p-4">
             <h1 class="text-3xl">Welcome to the Texture Uploader!</h1>
-            <%= render "form" %>
-            <%= render "select" %>
+            <%= render "search" %>
             <p>Selected item: <%= @selected_item %></p>
             <div class="flex justify-center h-80 w-full overflow-y-scroll">
                 <%= render "items", items: @items %>
             </div>
+            <%= render "form" %>
         </div>
     </div>
     <div class="bg-blue-100 rounded">
@@ -18,8 +18,7 @@
             <p><strong>Step 3:</strong> Browse for your custom texture (must be 16x16)</p>
             <p><strong>Step 4:</strong> Give your new item a name! (must be unique)</p>
             <p><strong>Step 5:</strong> Press the upload button!</p>
-            <p class="text-green-500">UPDATE: You can now write whatever you want in the name field.<br>
-            It should no longer break things.</p>
+            <%= link_to "Back to Dashboard", dashboard_index_path, class: "ml-2 p-4 bg-blue-600 text-white rounded cursor-pointer self-start" %>
         </div>
     </div>
 </div>

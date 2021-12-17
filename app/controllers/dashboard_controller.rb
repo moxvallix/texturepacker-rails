@@ -107,7 +107,12 @@ class DashboardController < ApplicationController
 
     def search
         if params[:query].present?
-          @items = Item.all.grep(/#{params[:query]}/)
+          item_list = Item.all
+          search = params[:query].to_s.split(" ")
+          search.each do |q|
+            item_list = item_list.select {|s| s.match(/#{q}/)}
+          end
+          @items = item_list
         else
           @items = Item.all
         end

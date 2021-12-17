@@ -4,7 +4,7 @@
             <h1 class="text-3xl">Welcome to the Texture Uploader!</h1>
             <%= render "search" %>
             <p>Selected item: <%= @selected_item %></p>
-            <div class="flex justify-center h-80 w-full overflow-y-scroll">
+            <div class="h-80 w-full overflow-y-scroll">
                 <%= render "items", items: @items %>
             </div>
             <%= render "form" %>

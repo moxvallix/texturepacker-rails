@@ -4,7 +4,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.0.2"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.0.0.alpha2"
+gem "rails", "~> 7.0.0"
+
+gem "sprockets-rails"
 
 gem "pg"
 # Use the Puma web server [https://github.com/puma/puma]
@@ -54,6 +56,7 @@ group :development do
   gem "web-console", ">= 4.1.0"
   # Use sqlite3 as the database for Active Record
   gem "sqlite3", "~> 1.4"
+  gem "htmlbeautifier"
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler", ">= 2.3.3"
 

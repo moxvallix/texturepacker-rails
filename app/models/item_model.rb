@@ -19,12 +19,14 @@ class ItemModel
             overrides.each_with_index do |override, index|
                 output_hash = Hash.new
                 parent = model.chomp(".json").titlecase
-                predicate = override["predicate"]["custom_model_data"]
-                texture_path = texture_dir + override["model"].to_s + ".png"
-                split_name = override["model"].to_s.split('/')
-                name = split_name[2].titlecase
-                output_hash = {"name" => name, "parent" => parent, "uid" => predicate, "path" => texture_path}
-                output.push(output_hash)
+                if override["predicate"].has_key?("custom_model_data")
+                    predicate = override["predicate"]["custom_model_data"]
+                    texture_path = texture_dir + override["model"].to_s + ".png"
+                    split_name = override["model"].to_s.split('/')
+                    name = split_name[2].titlecase
+                    output_hash = {"name" => name, "parent" => parent, "uid" => predicate, "path" => texture_path}
+                    output.push(output_hash)
+                end
             end
         end
         output

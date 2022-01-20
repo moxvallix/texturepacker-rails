@@ -91,8 +91,22 @@ class DashboardController < ApplicationController
         model_json.has_key?("overrides")
     end
 
+    def has_custom_model?(model_json)
+        if has_overrides?(model_json)
+            overrides = model_json["overrides"]
+            overrides.each do |override|
+                if override["predicate"].has_key?("custom_model_data")
+                    return true
+                    puts "I have custom model"
+                else
+                    return false
+                end
+            end
+        end
+    end
+
     def next_model_number(model_json)
-        return 1 unless has_overrides?(model_json)
+        return 1 unless has_custom_model?(model_json)
         predicate = model_json["overrides"].last
         model = predicate["predicate"]
         model["custom_model_data"].to_int + 1
@@ -106,6 +120,7 @@ class DashboardController < ApplicationController
     end
 
     def search
+        @items = Item.all
         if params[:query].present?
           item_list = Item.all
           search = params[:query].to_s.split(" ")
@@ -113,8 +128,6 @@ class DashboardController < ApplicationController
             item_list = item_list.select {|s| s.match(/#{q}/)}
           end
           @items = item_list
-        else
-          @items = Item.all
         end
         
         render turbo_stream: turbo_stream.replace(

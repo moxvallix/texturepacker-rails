@@ -5,7 +5,7 @@
             <%= render "search" %>
             <p>Selected item: <%= @selected_item %></p>
             <div class="h-80 w-full overflow-y-scroll">
-                <%= render "items", items: @items %>
+                <%= render "items", items: @items, items_type: @items_type %>
             </div>
             <%= render "form" %>
         </div>

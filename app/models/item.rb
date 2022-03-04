@@ -6,5 +6,11 @@ class Item
             items[index] = item
         end
         items
-    end 
+    end
+
+    def self.find(name)
+        model_name = name.parameterize.underscore
+        "public/resources/example_models/#{model_name}.json"
+    end
+
 end

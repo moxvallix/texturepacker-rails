@@ -4,14 +4,26 @@ require 'zip_file_generator'
 require 'open-uri'
 
 class DashboardController < ApplicationController
+    COLLECTION = "custom"
+
     def index
-        collection = "custom"
-        @item_models = ItemModel.all(collection)
+        @item_models = ItemModel.all(COLLECTION)
     end
 
     def new
         @items = Item.all
         @selected_item = params[:selection]
+        @items_type = "new"
+    end
+
+    def edit
+        @items = CustomItem.all(COLLECTION)
+        @selected_item = params[:selection]
+        unless @selected_item.nil?
+            @model_file = CustomItem.find(COLLECTION, @selected_item)
+            @model_json = File.read(@model_file)
+        end
+        @items_type = "edit"
     end
 
     def upload
@@ -63,6 +75,16 @@ class DashboardController < ApplicationController
 
         # Redirects to Output
         redirect_to output_dashboard_index_path(uid: model_no, name: texture_name, item: item)
+    end
+
+    def model
+        selected_item = params[:selection]
+        model_file = CustomItem.find(COLLECTION, selected_item)
+
+        model_json = params[:model_json]
+
+        File.write(model_file, model_json)
+        redirect_to root_path
     end
 
     def new_override(model_json, collection, texture_name, model_no)
@@ -121,6 +143,7 @@ class DashboardController < ApplicationController
 
     def search
         @items = Item.all
+        @items_type = params[:items_type]
         if params[:query].present?
           item_list = Item.all
           search = params[:query].to_s.split(" ")
@@ -134,10 +157,11 @@ class DashboardController < ApplicationController
           'items',
           partial: 'items',
           locals: {
-            items: @items
+            items: @items,
+            items_type: @items_type
           }
         )
-    end 
+    end
 
     def output
         @uid = params[:uid]

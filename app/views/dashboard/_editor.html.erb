@@ -1,0 +1,5 @@
+<%= form_with url: model_dashboard_index_path, class: "flex flex-col items-start gap-2" do |form| %>
+      <%= form.text_area :model_json, value: @model_json, class: "w-full h-96" %>
+      <%= form.hidden_field :selection, value: @selected_item %>
+      <%= form.submit 'Submit', class: "ml-2 p-4 bg-blue-600 text-white rounded cursor-pointer"%>
+<% end %>

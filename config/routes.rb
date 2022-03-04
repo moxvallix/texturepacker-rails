@@ -3,10 +3,12 @@ Rails.application.routes.draw do
   resources :dashboard do
     collection do
       post 'upload'
+      post 'model'
       post 'search'
       post 'selection'
       get 'download'
       get 'output'
+      get 'edit'
     end
   end
   root 'dashboard#index'

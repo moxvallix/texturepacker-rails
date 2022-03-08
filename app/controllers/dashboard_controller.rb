@@ -7,7 +7,7 @@ class DashboardController < ApplicationController
     COLLECTION = "custom"
 
     def index
-        @item_models = ItemModel.all(COLLECTION)
+        @item_models = ItemModel.list(COLLECTION)
     end
 
     def new
@@ -26,6 +26,17 @@ class DashboardController < ApplicationController
         @items_type = "edit"
     end
 
+    def edit_items
+        @items = ItemModel.all(COLLECTION)
+        @selected_item = params[:selection]
+        unless @selected_item.nil?
+            @model_file = ItemModel.find(COLLECTION, @selected_item)
+            @texture_path = ItemModel.find_texture(COLLECTION, @selected_item)
+            @model_json = File.read(@model_file)
+        end
+        @items_type = "items"
+    end
+
     def upload
         uploaded_file = params[:file]
         texture_name = params[:name].parameterize.underscore
@@ -38,9 +49,9 @@ class DashboardController < ApplicationController
         selection = selection + ".json"
         collection = "custom"
         examples = "public/resources/example_models/"
-        models = "public/packs/#{collection}/assets/minecraft/models/item/"
-        model_out = "public/packs/#{collection}/assets/minecraft/models/item/#{collection}/"
-        img_out = "public/packs/#{collection}/assets/minecraft/textures/item/#{collection}/"
+        models = "public/packs/#{COLLECTION}/assets/minecraft/models/item/"
+        model_out = "public/packs/#{COLLECTION}/assets/minecraft/models/item/#{COLLECTION}/"
+        img_out = "public/packs/#{COLLECTION}/assets/minecraft/textures/item/#{COLLECTION}/"
 
         # Create correct folder structure
         FileUtils.mkdir_p(model_out) unless Dir.exists?(model_out)
@@ -56,12 +67,12 @@ class DashboardController < ApplicationController
         model_no = next_model_number(model_json)
 
         # Saves updated base model to folder structure
-        output = new_override(model_json, collection, texture_name, model_no)
+        output = new_override(model_json, COLLECTION, texture_name, model_no)
         File.write(models + selection, JSON.pretty_generate(output))
 
         # Saves new child (override) model to folder structure
         model_out_json = JSON.parse(File.read(model_out + texture_name + ".json"))
-        texture_data = {"textures"=>{"layer0"=>"minecraft:item/#{collection}/#{texture_name}"}}
+        texture_data = {"textures"=>{"layer0"=>"minecraft:item/#{COLLECTION}/#{texture_name}"}}
         output = model_out_json.merge(texture_data)
         File.write(model_out + texture_name + ".json", JSON.pretty_generate(output))
 
@@ -71,7 +82,7 @@ class DashboardController < ApplicationController
         end
 
         # Zips Collections
-        zip_collection(collection)
+        zip_collection(COLLECTION)
 
         # Redirects to Output
         redirect_to output_dashboard_index_path(uid: model_no, name: texture_name, item: item)
@@ -83,6 +94,44 @@ class DashboardController < ApplicationController
 
         model_json = params[:model_json]
 
+        File.write(model_file, model_json)
+        redirect_to root_path
+    end
+
+    def items_model
+        model_out = "public/packs/#{COLLECTION}/assets/minecraft/models/item/#{COLLECTION}"
+        img_out = "public/packs/#{COLLECTION}/assets/minecraft/textures/item/#{COLLECTION}"
+        selected_item = params[:selection]
+        model_name = params[:name].parameterize.underscore
+        texture = params[:file]
+        model_json = params[:model_json]
+
+        model_file = ItemModel.find(COLLECTION, selected_item)
+
+        if selected_item != model_name
+            base_model = CustomItem.find_parent(COLLECTION, selected_item)
+            puts "Base: " + base_model
+            base_text = File.read(base_model)
+            base_text.sub! "item/#{COLLECTION}/#{selected_item}", "item/#{COLLECTION}/#{model_name}"
+            File.delete(base_model)
+            File.write(base_model, base_text)
+
+            model_json.sub! "item/#{COLLECTION}/#{selected_item}", "item/#{COLLECTION}/#{model_name}"
+
+            File.rename("#{img_out}/#{selected_item}.png", "#{img_out}/#{model_name}.png")
+            File.delete(model_file)
+            model_file = "#{model_out}/#{model_name}.json"
+        end
+
+        if texture.present?
+            img_path = "#{img_out}/#{model_name}"
+            File.delete(img_path)
+            File.open(img_path, 'wb') do |file|
+                file.write(texture.read)
+            end
+        end
+
+        puts model_file
         File.write(model_file, model_json)
         redirect_to root_path
     end
@@ -106,7 +155,7 @@ class DashboardController < ApplicationController
     end
 
     def model_data(model_no, collection, texture_name)
-        [{"predicate"=>{"custom_model_data"=>model_no}, "model"=>"item/#{collection}/#{texture_name}"}]
+        [{"predicate"=>{"custom_model_data"=>model_no}, "model"=>"item/#{COLLECTION}/#{texture_name}"}]
     end
 
     def has_overrides?(model_json)
@@ -137,7 +186,7 @@ class DashboardController < ApplicationController
     def download
         collection = "custom"
         zip_collection(collection)
-        filepath = "public/packs/#{collection}-rp.zip"
+        filepath = "public/packs/#{COLLECTION}-rp.zip"
         send_file filepath
     end
 

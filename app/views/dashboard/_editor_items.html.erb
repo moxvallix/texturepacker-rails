@@ -1,0 +1,18 @@
+<%= form_with url: items_model_dashboard_index_path, class: "flex flex-col items-start gap-2" do |form| %>
+    <%= form.text_area :model_json, value: @model_json, class: "w-full h-80" %>
+    <div class="flex justify-between w-full">
+        <div>
+            <p>Change the texture</p>
+            <%= form.file_field :file %>
+        </div>
+        <% if @texture_path.present? %>
+            <%= image_tag(@texture_path, size: "64x64", style: "image-rendering: optimizeSpeed; image-rendering: pixelated; margin: 0px;") %>
+        <% end %>
+        <div>
+            <p>Change the item's name</p>
+            <%= form.text_field :name, value: @selected_item, required: true %>
+        </div>
+    </div>
+    <%= form.hidden_field :selection, value: @selected_item %>
+    <%= form.submit 'Submit', class: "ml-2 p-4 bg-blue-600 text-white rounded cursor-pointer"%>
+<% end %>

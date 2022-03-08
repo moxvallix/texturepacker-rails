@@ -1,0 +1,28 @@
+<div class="flex flex-col gap-4">
+    <div class="flex gap-4">
+        <div class="bg-blue-100 rounded">
+            <div class="flex flex-col gap-4 p-4">
+                <h1 class="text-3xl">Welcome to the Item Editor!</h1>
+                <%= render "search" %>
+                <p>Selected item: <%= @selected_item %></p>
+                <div class="h-36 w-full overflow-y-scroll">
+                    <%= render "items", items: @items, items_type: @items_type %>
+                </div>
+            </div>
+        </div>
+        <div class="bg-blue-100 rounded">
+            <div class="flex flex-col gap-4 p-4">
+                <h1 class="text-3xl">HOWTO:</h1>
+                <p><strong>Step 1:</strong> Search for an item in the search box.</p>
+                <p><strong>Step 2:</strong> Click "Select" next to the item you want to change.</p>
+                <p><strong>Step 3:</strong> Edit the Custom item, and JSON file. Please use correct formatting.</p>
+                <p><strong>Step 4:</strong> Check over once more to be sure.</p>
+                <p><strong>Step 5:</strong> Press the submit button!</p>
+                <%= link_to "Back to Dashboard", dashboard_index_path, class: "ml-2 p-4 bg-blue-600 text-white rounded cursor-pointer self-start" %>
+            </div>
+        </div>
+    </div>
+    <div class="bg-blue-100 rounded p-4">
+        <%= render "editor_items" %>
+    </div>
+</div>

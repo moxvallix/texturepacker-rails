@@ -11,9 +11,19 @@ class CustomItem
     end
 
     def self.find(collection, name)
-        model_dir = "public/packs/#{collection}/assets/minecraft/models/item/"
+        model_dir = "public/packs/#{collection}/assets/minecraft/models/item"
         model_name = name.parameterize.underscore
         "#{model_dir}/#{model_name}.json"
+    end
+
+    def self.find_parent(collection, name)
+        model_dir = "public/packs/#{collection}/assets/minecraft/models/item"
+        all(collection).each do | item |
+            path = "#{model_dir}/#{item}.json"
+            if File.readlines(path).grep(/"item\/#{collection}\/#{name}"/).any?
+                return path
+            end
+        end
     end
 
 end

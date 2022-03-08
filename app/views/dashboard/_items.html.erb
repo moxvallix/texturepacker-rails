@@ -3,10 +3,13 @@
     <% @items.each_with_index do |item, index| %>
       <tr class="flex justify-between <%= "bg-blue-200" if index.even? %>">
         <td><%= item %></td>
-        <% if items_type == "new" %>
+        <% case items_type%>
+        <% when "new" %>
           <td class="mr-4"><%= link_to "Select", new_dashboard_path(selection: item), class: "underline" %></td>
-        <% elsif items_type == "edit" %>
+        <% when "edit" %>
           <td class="mr-4"><%= link_to "Select", edit_dashboard_index_path(selection: item), class: "underline" %></td>
+        <% when "items" %>
+          <td class="mr-4"><%= link_to "Select", edit_items_dashboard_index_path(selection: item), class: "underline" %></td>
         <% end %>
       </tr>
     <% end %>

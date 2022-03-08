@@ -1,7 +1,19 @@
 require 'json'
 
 class ItemModel
+    
     def self.all(collection)
+        model_dir = "public/packs/#{collection}/assets/minecraft/models/item/#{collection}"
+
+        items = Dir.entries(model_dir).grep(/.json/).sort
+        items.each_with_index do | item, index |
+            item = item.chomp(".json")
+            items[index] = item
+        end
+        items
+    end
+
+    def self.list(collection)
         model_dir = "public/packs/#{collection}/assets/minecraft/models/item/"
         texture_dir = "/packs/#{collection}/assets/minecraft/textures/"
         unless Dir.exists?(model_dir)
@@ -31,4 +43,17 @@ class ItemModel
         end
         output
     end
+
+    def self.find(collection, name)
+        model_dir = "public/packs/#{collection}/assets/minecraft/models/item/#{collection}"
+        model_name = name.parameterize.underscore
+        "#{model_dir}/#{model_name}.json"
+    end
+
+    def self.find_texture(collection, name)
+        model_dir = "/packs/#{collection}/assets/minecraft/textures/item/#{collection}"
+        model_name = name.parameterize.underscore
+        "#{model_dir}/#{model_name}.png"
+    end
+
 end

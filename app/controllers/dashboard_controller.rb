@@ -131,7 +131,7 @@ class DashboardController < ApplicationController
         end
 
         if texture.present?
-            img_path = "#{img_out}/#{model_name}"
+            img_path = "#{img_out}/#{model_name}.png"
             File.delete(img_path)
             File.open(img_path, 'wb') do |file|
                 file.write(texture.read)

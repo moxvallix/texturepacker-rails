@@ -14,7 +14,7 @@
           <td><%= model["name"] %></td>
           <td><%= model["parent"] %></td>
           <td class="flex items-center gap-2"><input class="bg-gray-700 text-white p-1 rounded-sm font-mono" data-clipboard-target="source" size="32" value="/trigger CustomModelData set <%= model["uid"] %>" readonly ><button data-action="clipboard#copy" title="Copy to Clipboard"><%= image_tag "copy", size: "26x26" %></button></td>
-          <td><%= image_tag(model["path"], size: "64x64", style: "image-rendering: optimizeSpeed; image-rendering: pixelated; margin: 0px;") %></td>
+          <td><div style="width: 64px; height: 64px; overflow: hidden;"><%= image_tag(model["path"], size: "64x64", style: "image-rendering: optimizeSpeed; image-rendering: pixelated; margin: 0px;") %></div></td>
         </tr>
       <% end %>
     </tbody>

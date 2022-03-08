@@ -51,7 +51,7 @@ class DashboardController < ApplicationController
         examples = "public/resources/example_models/"
         models = "public/packs/#{COLLECTION}/assets/minecraft/models/item/"
         model_out = "public/packs/#{COLLECTION}/assets/minecraft/models/item/#{COLLECTION}/"
-        img_out = "public/packs/#{COLLECTION}/assets/minecraft/textures/item/#{COLLECTION}/"
+        img_out = "public/packs/#{COLLECTION}/assets/minecraft/textures/item/#{COLLECTION}"
 
         # Create correct folder structure
         FileUtils.mkdir_p(model_out) unless Dir.exists?(model_out)
@@ -77,8 +77,15 @@ class DashboardController < ApplicationController
         File.write(model_out + texture_name + ".json", JSON.pretty_generate(output))
 
         # Saves their image into the folder structure
-        File.open(img_out + texture_name + ".png", 'wb') do |file|
+        texture_path = "#{img_out}/#{texture_name}.png"
+        File.open(texture_path, 'wb') do |file|
             file.write(uploaded_file.read)
+        end
+
+        # Generate a .mcmeta file if the texture is to be animated
+        dimensions = IO.read(texture_path)[0x10..0x18].unpack('NN')
+        if dimensions[1] > dimensions[0]
+            FileUtils.cp("public/resources/animation.mcmeta", "#{img_out}/#{texture_name}.png.mcmeta")
         end
 
         # Zips Collections

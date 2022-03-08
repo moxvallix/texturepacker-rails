@@ -191,17 +191,26 @@ class DashboardController < ApplicationController
     end
 
     def search
-        @items = Item.all
         @items_type = params[:items_type]
+
+        case @items_type
+        when "new"
+            @items = Item.all
+        when "edit"
+            @items = CustomItem.all(COLLECTION)
+        when "items"
+            @items = ItemModel.all(COLLECTION)
+        end
+
         if params[:query].present?
-          item_list = Item.all
+          item_list = @items
           search = params[:query].to_s.split(" ")
           search.each do |q|
             item_list = item_list.select {|s| s.match(/#{q}/)}
           end
           @items = item_list
         end
-        
+
         render turbo_stream: turbo_stream.replace(
           'items',
           partial: 'items',
